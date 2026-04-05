@@ -1,0 +1,55 @@
+#intro {
+  font-size: 3.4rem;
+}
+
+.animated-slogan-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  gap: 0.2em;
+  font-size: 2rem;
+}
+
+/* Remains in layout, just invisible */
+.fade-in {
+  opacity: 1;
+  transition: opacity 1s ease-in;
+}
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 1s ease-out;
+}
+
+.show {
+  opacity: 1;
+}
+
+.hide {
+  opacity: 0;
+}
+
+@media (max-width: 600px) {
+  #intro {
+    font-size: 1.8rem;
+  }
+
+  .main-header-content {
+    font-size: 1.4rem;
+    padding: 1rem 0.5rem;
+  }
+
+  .animated-slogan-row {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.2em;
+    font-size: 1.1rem;
+  }
+
+  .slogan-text {
+    display: block;
+    text-align: center;
+    word-break: break-word;
+  }
+}

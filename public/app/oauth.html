@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <link href="https://saasufy.com/node_modules/saasufy-components/styles.css" rel="stylesheet" />
+    <script src="https://saasufy.com/node_modules/saasufy-components/socket.js" type="module" defer></script>
+    <script src="https://saasufy.com/node_modules/saasufy-components/oauth-handler.js" type="module" defer></script>
+    <script type="module">
+      import { config as fullConfig } from './config.js';
+      let isDev = location.hostname === 'localhost' || location.hostname === '127.0.0.1' || !location.hostname;
+      window.config = isDev ? fullConfig.dev : fullConfig.prod;
+
+      document.addEventListener('DOMContentLoaded', () => {
+        document.body.innerHTML = `
+          <socket-provider url="wss://saasufy.com/sid8005/socketcluster/" class="container-vertical">
+            <oauth-handler provider="google" success-location-hash="/close" use-local-storage extra-data="redirect_uri=${config.oauth.google.redirectURI}"></oauth-handler>
+          </socket-provider>
+        `;
+      });
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+      window.addEventListener('hashchange', (event) => {
+        if (location.hash === '#/close') {
+          localStorage.removeItem('oauth.state');
+          window.close();
+        }
+      });
+    </script>
+  </head>
+  <body>
+  </body>
+</html>

@@ -1,0 +1,32 @@
+{
+  "name": "main",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jondubois/crawlkeep.git"
+  },
+  "author": "Kevin Simonnet <k.simonnet@exeksourcing.com>, Jonathan Gros Dubois",
+  "license": "SEE LICENSE IN LICENSE.txt",
+  "bugs": {
+    "url": "https://github.com/jondubois/crawlkeep/issues"
+  },
+  "homepage": "https://github.com/jondubois/crawlkeep#readme",
+  "dependencies": {
+    "@xenova/transformers": "^2.17.2",
+    "openai": "^6.7.0",
+    "uuid": "^11.1.0",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "tailwindcss": "^4.1.11"
+  }
+}

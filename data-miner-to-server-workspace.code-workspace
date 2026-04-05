@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "data-miner-to-server"
+		},
+		{
+			"path": "lib"
+		},
+		{
+			"path": "utils"
+		},
+		{
+			"path": "classes"
+		}
+	],
+	"settings": {}
+}

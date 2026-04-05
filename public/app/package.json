@@ -1,0 +1,17 @@
+{
+  "name": "crawlkeep.com",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Codebase for crawlkeep.com",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:jondubois/crawlkeep.git"
+  },
+  "author": "Kevin Simonnet \\ <k.simonnet@exeksourcing.com> \\ Jonathan Gros Dubois",
+  "dependencies": {
+    "ol": "^10.2.1",
+    "ol-pmtiles": "^1.0.2",
+    "writable-consumable-stream": "^4.2.0"
+  }
+}

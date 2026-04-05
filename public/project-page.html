@@ -1,0 +1,1178 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project Dashboard</title>
+    <link rel="icon" type="image/x-icon" href="app/assets/favicon.ico" />
+    <script src="js/chart.min.js"></script>
+    <script src="js/tailwindcss.min.js"></script>
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/project-page.css" />
+    <link rel="stylesheet" href="css/slider-switch.css" />
+    <script>
+      // Enable dark mode toggle on page load
+      tailwind.config = {
+        darkMode: "class",
+      };
+      document.addEventListener("DOMContentLoaded", function () {
+        const toggleBtn = document.getElementById("toggle-dark");
+        if (toggleBtn) {
+          toggleBtn.addEventListener("click", function () {
+            document.documentElement.classList.toggle("dark");
+          });
+        }
+      });
+    </script>
+    <style>
+      #company-table td,
+      #employee-table td,
+      #company-table th,
+      #employee-table th {
+        padding: 0.375rem 0.25rem !important;
+      }
+      @media (min-width: 640px) {
+        #company-table td,
+        #employee-table td,
+        #company-table th,
+        #employee-table th {
+          padding: 0.5rem 0.375rem !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header
+      class="mb-8 px-6 py-4 rounded-xl shadow bg-[#ddf0ff] dark:bg-gray-800"
+      style="border-top-left-radius: 0; border-top-right-radius: 0"
+    >
+      <div class="flex items-center justify-between">
+        <!-- Logo and name -->
+        <a href="index.html" class="logo-container">
+          <img
+            src="assets/images/crawlkeep-logo-small.png"
+            alt="Logo"
+            class="w-10 h-10"
+          />
+          <span
+            class="text-xl font-bold ml-3 text-[#0077b5] dark:text-[#ddf0ff]"
+            >CrawlKeep</span
+          >
+        </a>
+        <!-- Nav menu -->
+        <nav class="nav-items">
+          <a href="#" class="link-btn-no-underline ml-4">Projects</a>
+          <a href="#" class="link-btn-no-underline ml-4">Account info</a>
+          <a href="#" class="link-btn-no-underline ml-4">Register / Log in</a>
+        </nav>
+      </div>
+      <!-- Dark mode toggle -->
+      <div class="flex justify-end flex-1 mt-2">
+        <button
+          id="toggle-dark"
+          class="px-3 py-1 rounded bg-gray-200/0 dark:bg-gray-700/0 text-gray-900 dark:text-white ml-4 flex items-center justify-center"
+          aria-label="Toggle dark mode"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+            <defs>
+              <linearGradient id="half-dark-light" x1="0" x2="1" y1="0" y2="0">
+                <stop offset="50%" stop-color="#fff" />
+                <stop offset="50%" stop-color="#000" />
+              </linearGradient>
+            </defs>
+            <circle
+              cx="12"
+              cy="12"
+              r="10"
+              fill="url(#half-dark-light)"
+              stroke="#888"
+              stroke-width="1"
+            />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <section class="w-full mx-auto px-6 mb-4">
+      <div class="flex items-center justify-between py-3">
+        <!-- Editable field -->
+        <div class="flex items-center">
+          <div class="text-lg font-bold mr-4">Project</div>
+          <div
+            id="project-name-input"
+            name="project-name"
+            class="dark:bg-gray-900 dark:text-white"
+            style="cursor: pointer"
+            onclick="this.contentEditable='true'; this.className='bg-white border border-blue-400 rounded px-3 py-2 dark:bg-gray-900 dark:text-white'; this.focus();"
+            onblur="this.contentEditable='false'; this.className='dark:bg-gray-900 dark:text-white';"
+            tabindex="0"
+          >
+            Lead Data Scientist, Australia
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="font-semibold">Download:</span>
+          <a href="#" class="link-btn-no-underline">Full JSON</a>
+          <a href="#" class="link-btn-no-underline">Employee URLs</a>
+          <a href="#" class="link-btn-no-underline">Company URLs</a>
+        </div>
+      </div>
+    </section>
+
+    <main class="main-wrapper">
+      <!-- Companies -->
+      <section class="table-section">
+        <div class="table-menu">
+          <h2 id="company-table-title" class="table-title">Companies (118)</h2>
+          <div class="table-title-controls">
+            <div class="input-label-group">
+              <input
+                type="text"
+                id="natural-language-input-company"
+                class="natural-language-input"
+                placeholder="Type your question..."
+                aria-label="Natural Language input"
+                style="min-width: 32ch; width: 48ch; max-width: 100%"
+              />
+              <label class="ai-label" for="natural-language-input-company"
+                >Ask AI</label
+              >
+            </div>
+            <div class="view-mode-container">
+              <select
+                id="view-mode-company"
+                class="view-mode-select"
+                aria-label="View mode"
+              ></select>
+            </div>
+          </div>
+        </div>
+        <!-- Companies table -->
+        <div id="company-container" class="table-container">
+          <table id="company-table" class="text-xs sm:text-sm">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Employee count</th>
+                <th>Country</th>
+                <th>Company Page</th>
+                <th>Actively hiring</th>
+                <th>Status</th>
+                <th>Visualize in view</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <a
+                    href="#"
+                    class="popup-company-card link-btn"
+                    aria-label="Show company card"
+                  >
+                    CrowdStrike
+                  </a>
+                </td>
+                <td>158</td>
+                <td>United States</td>
+                <td class="center-content">
+                  <a href="#" class="link-btn" aria-label="LinkedIn profile">
+                    <img
+                      src="assets/images/linkedin-logo.png"
+                      alt="LinkedIn Company Page"
+                      class="linkedin-logo"
+                    />
+                  </a>
+                </td>
+                <td>
+                  <div class="center-content">
+                    <svg
+                      width="16"
+                      height="16"
+                      class="inline-block align-middle shrink-0"
+                    >
+                      <circle cx="8" cy="8" r="8" fill="#22c55e" />
+                    </svg>
+                    <a
+                      href="https://www.glassdoor.com.au/job-listing/sr-medical-editor-australia-home-base-syneos-clinical-and-corporate-prod-JV_IC2218494_KO0,37_KE38,72.htm?"
+                      class="text-indigo-600 underline hover:text-indigo-800 ml-1"
+                      aria-label="Job advert"
+                      target="_blank"
+                      rel="noopener"
+                    >
+                      Glassdoor Job
+                    </a>
+                  </div>
+                </td>
+                <td>
+                  <select class="status-select" name="company-status"></select>
+                </td>
+                <td>
+                  <input
+                    name="add-company-to-selection"
+                    type="checkbox"
+                  />
+                </td>
+
+                <td>
+                  <span class="delete-btn">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <circle
+                        cx="8"
+                        cy="8"
+                        r="7"
+                        fill="#ef4444"
+                        stroke="#dc2626"
+                        stroke-width="1"
+                      />
+                      <path
+                        d="M5.5 5.5L10.5 10.5M10.5 5.5L5.5 10.5"
+                        stroke="white"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <a
+                    href="#"
+                    class="popup-company-card link-btn"
+                    aria-label="Show company card"
+                  >
+                    SentinelOne
+                  </a>
+                </td>
+                <td>217</td>
+                <td>United States</td>
+                <td>
+                  <div class="center-content">
+                    <a href="#" class="link-btn" aria-label="LinkedIn profile">
+                      <img
+                        src="assets/images/linkedin-logo.png"
+                        alt="LinkedIn Company Page"
+                        class="linkedin-logo"
+                      />
+                    </a>
+                  </div>
+                </td>
+                <td class="center-content">
+                  <svg width="16" height="16" class="inline-block align-middle">
+                    <circle cx="8" cy="8" r="8" fill="#ef4444" />
+                  </svg>
+                </td>
+                <td>
+                  <select class="status-select" name="company-status"></select>
+                </td>
+                <td>
+                  <input
+                    id="add-sentinelone-to-selection"
+                    name="add-sentinelone-to-selection"
+                    type="checkbox"
+                  />
+                </td>
+                <td>
+                  <span class="delete-btn">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <circle
+                        cx="8"
+                        cy="8"
+                        r="7"
+                        fill="#ef4444"
+                        stroke="#dc2626"
+                        stroke-width="1"
+                      />
+                      <path
+                        d="M5.5 5.5L10.5 10.5M10.5 5.5L5.5 10.5"
+                        stroke="white"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- Pagination controls -->
+        <div class="pagination-controls">
+          <button class="pagination-btn" disabled>Prev</button>
+          <span class="text-lg font-medium">1</span>
+          <button class="pagination-btn">Next</button>
+        </div>
+      </section>
+
+      <!-- Employees -->
+      <section class="table-section">
+        <div class="table-menu">
+          <h2 id="employee-table-title" class="table-title">Employees (224)</h2>
+          <div class="table-title-controls">
+            <div class="input-label-group">
+              <input
+                type="text"
+                id="natural-language-input-employee"
+                class="natural-language-input"
+                placeholder="Type your question..."
+                aria-label="Natural Language input"
+                style="min-width: 32ch; width: 48ch; max-width: 100%"
+              />
+              <label class="ai-label" for="natural-language-input-employee"
+                >Ask AI</label
+              >
+            </div>
+            <div class="view-mode-container">
+              <select
+                id="view-mode-employee"
+                class="view-mode-select"
+                aria-label="View mode"
+              ></select>
+            </div>
+          </div>
+        </div>
+        <div id="employee-container" class="table-container">
+          <table id="employee-table" class="text-xs sm:text-sm">
+            <thead>
+              <tr>
+                <th>Profile picture</th>
+                <th>Name</th>
+                <th class="w-12 sm:w-16 min-w-0">Company</th>
+                <th>Headline</th>
+                <th>Location</th>
+                <th>Score</th>
+                <th>Profile</th>
+                <th>Contact details</th>
+                <th>Status</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <img
+                    src="assets/images/generic-profile-icon-small.png"
+                    alt="Profile picture"
+                    class="w-10 h-10 rounded-full mx-auto bg-gray-100 dark:bg-gray-700"
+                  />
+                </td>
+                <td>
+                  <a
+                    href="#"
+                    class="popup-employee-card link-btn"
+                    aria-label="Show employee card"
+                    >Teo Tea
+                  </a>
+                </td>
+                <td>SentinelOne</td>
+                <td>Executive Manager - Data Science</td>
+                <td>San Francisco, California, United States</td>
+                <td>0.88</td>
+                <td>
+                  <a href="#" class="link-btn" aria-label="LinkedIn profile">
+                    <img
+                      src="assets/images/linkedin-logo.png"
+                      alt="LinkedIn Company Page"
+                      class="linkedin-logo"
+                    />
+                  </a>
+                </td>
+                <td>
+                  <button class="contact-btn" type="button">
+                    Get email / phone
+                  </button>
+                </td>
+                <td>
+                  <select class="status-select" name="employee-status"></select>
+                </td>
+                <td>
+                  <span class="delete-btn">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <circle
+                        cx="8"
+                        cy="8"
+                        r="7"
+                        fill="#ef4444"
+                        stroke="#dc2626"
+                        stroke-width="1"
+                      />
+                      <path
+                        d="M5.5 5.5L10.5 10.5M10.5 5.5L5.5 10.5"
+                        stroke="white"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <img
+                    src="assets/images/generic-profile-icon-small.png"
+                    alt="Profile picture"
+                    class="w-10 h-10 rounded-full mx-auto bg-gray-100 dark:bg-gray-700"
+                  />
+                </td>
+                <td>
+                  <a
+                    href="#"
+                    class="popup-employee-card link-btn"
+                    aria-label="Show employee card"
+                    >Thao Yuang
+                  </a>
+                </td>
+                <td>SentinelOne</td>
+                <td>Senior Manager - Data Science</td>
+                <td>Paris, France</td>
+                <td>0.62</td>
+                <td>
+                  <a href="#" class="link-btn" aria-label="LinkedIn profile">
+                    <img
+                      src="assets/images/linkedin-logo.png"
+                      alt="LinkedIn Company Page"
+                      class="linkedin-logo"
+                    />
+                  </a>
+                </td>
+                <td>
+                  <button
+                    id="senior-manager-contact-details"
+                    class="contact-btn"
+                    type="button"
+                    onclick="this.nextElementSibling.style.display='inline'; this.style.display='none';"
+                  >
+                    Get email / phone
+                  </button>
+                  <span style="display: none">
+                    email:<br />
+                    thao.yuang@sentinelone.com<br />
+                    thao.yuang@gmail.com<br />
+                    phone: 0412 345 678
+                  </span>
+                </td>
+                <td>
+                  <select class="status-select" name="employee-status"></select>
+                </td>
+                <td>
+                  <span class="delete-btn">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <circle
+                        cx="8"
+                        cy="8"
+                        r="7"
+                        fill="#ef4444"
+                        stroke="#dc2626"
+                        stroke-width="1"
+                      />
+                      <path
+                        d="M5.5 5.5L10.5 10.5M10.5 5.5L5.5 10.5"
+                        stroke="white"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <img
+                    src="assets/images/generic-profile-icon-small.png"
+                    alt="Profile picture"
+                    class="w-10 h-10 rounded-full mx-auto bg-gray-100 dark:bg-gray-700"
+                  />
+                </td>
+                <td>
+                  <a
+                    href="#"
+                    class="popup-employee-card link-btn"
+                    aria-label="Show employee card"
+                    >Amy Lee
+                  </a>
+                </td>
+                <td>SentinelOne</td>
+                <td>Lead Data Scientist</td>
+                <td>San Francisco, California, United States</td>
+                <td>0.85</td>
+                <td>
+                  <a href="#" class="link-btn" aria-label="LinkedIn profile">
+                    <img
+                      src="assets/images/linkedin-logo.png"
+                      alt="LinkedIn Company Page"
+                      class="linkedin-logo"
+                    />
+                  </a>
+                </td>
+                <td>
+                  <button class="contact-btn" type="button">
+                    Get email / phone
+                  </button>
+                </td>
+                <td>
+                  <select class="status-select" name="employee-status"></select>
+                </td>
+                <td>
+                  <span class="delete-btn">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <circle
+                        cx="8"
+                        cy="8"
+                        r="7"
+                        fill="#ef4444"
+                        stroke="#dc2626"
+                        stroke-width="1"
+                      />
+                      <path
+                        d="M5.5 5.5L10.5 10.5M10.5 5.5L5.5 10.5"
+                        stroke="white"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <img
+                    src="assets/images/generic-profile-icon-small.png"
+                    alt="Profile picture"
+                    class="w-10 h-10 rounded-full mx-auto bg-gray-100 dark:bg-gray-700"
+                  />
+                </td>
+                <td>
+                  <a
+                    href="#"
+                    class="popup-employee-card link-btn"
+                    aria-label="Show employee card"
+                    >Jo Nathan
+                  </a>
+                </td>
+                <td>SentinelOne</td>
+                <td>Data Scientist</td>
+                <td>Sydney, New South Wales, Australia</td>
+                <td>0.90</td>
+                <td>
+                  <a href="#" class="link-btn" aria-label="LinkedIn profile">
+                    <img
+                      src="assets/images/linkedin-logo.png"
+                      alt="LinkedIn Company Page"
+                      class="linkedin-logo"
+                    />
+                  </a>
+                </td>
+                <td>
+                  <button class="contact-btn" type="button">
+                    Get email / phone
+                  </button>
+                </td>
+                <td>
+                  <select class="status-select" name="employee-status"></select>
+                </td>
+                <td>
+                  <span class="delete-btn">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <circle
+                        cx="8"
+                        cy="8"
+                        r="7"
+                        fill="#ef4444"
+                        stroke="#dc2626"
+                        stroke-width="1"
+                      />
+                      <path
+                        d="M5.5 5.5L10.5 10.5M10.5 5.5L5.5 10.5"
+                        stroke="white"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <img
+                    src="assets/images/generic-profile-icon-small.png"
+                    alt="Profile picture"
+                    class="w-10 h-10 rounded-full mx-auto bg-gray-100 dark:bg-gray-700"
+                  />
+                </td>
+                <td>
+                  <a
+                    href="#"
+                    class="popup-employee-card link-btn"
+                    aria-label="Show employee card"
+                    >Ke Vin
+                  </a>
+                </td>
+                <td>SentinelOne</td>
+                <td>Junior Data Scientist</td>
+                <td>Canberra, Australian Capital Territory, Australia</td>
+                <td>0.75</td>
+                <td>
+                  <a href="#" class="link-btn" aria-label="LinkedIn profile">
+                    <img
+                      src="assets/images/linkedin-logo.png"
+                      alt="LinkedIn Company Page"
+                      class="linkedin-logo"
+                    />
+                  </a>
+                </td>
+                <td>
+                  <button class="contact-btn" type="button">
+                    Get email / phone
+                  </button>
+                </td>
+                <td>
+                  <select class="status-select" name="employee-status"></select>
+                </td>
+                <td>
+                  <span class="delete-btn">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <circle
+                        cx="8"
+                        cy="8"
+                        r="7"
+                        fill="#ef4444"
+                        stroke="#dc2626"
+                        stroke-width="1"
+                      />
+                      <path
+                        d="M5.5 5.5L10.5 10.5M10.5 5.5L5.5 10.5"
+                        stroke="white"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <img
+                    src="assets/images/generic-profile-icon-small.png"
+                    alt="Profile picture"
+                    class="w-10 h-10 rounded-full mx-auto bg-gray-100 dark:bg-gray-700"
+                  />
+                </td>
+                <td>
+                  <a
+                    href="#"
+                    class="popup-employee-card link-btn"
+                    aria-label="Show employee card"
+                    >Tarick Tampion
+                  </a>
+                </td>
+                <td>SentinelOne</td>
+                <td>Talent Acquisition Partner - Data Science</td>
+                <td>Canberra, Australian Capital Territory, Australia</td>
+                <td>0.86</td>
+                <td>
+                  <a href="#" class="link-btn" aria-label="LinkedIn profile">
+                    <img
+                      src="assets/images/linkedin-logo.png"
+                      alt="LinkedIn Company Page"
+                      class="linkedin-logo"
+                    />
+                  </a>
+                </td>
+                <td>
+                  <button
+                    id="tap-contact-details"
+                    class="contact-btn"
+                    type="button"
+                    onclick="this.nextElementSibling.style.display='inline'; this.style.display='none';"
+                  >
+                    Get email / phone
+                  </button>
+                  <span style="display: none; margin-left: 0.5em"
+                    >tar.tampion@sentinelone.com</span
+                  >
+                </td>
+                <td>
+                  <select class="status-select" name="employee-status"></select>
+                </td>
+                <td>
+                  <span class="delete-btn">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <circle
+                        cx="8"
+                        cy="8"
+                        r="7"
+                        fill="#ef4444"
+                        stroke="#dc2626"
+                        stroke-width="1"
+                      />
+                      <path
+                        d="M5.5 5.5L10.5 10.5M10.5 5.5L5.5 10.5"
+                        stroke="white"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <img
+                    src="assets/images/generic-profile-icon-small.png"
+                    alt="Profile picture"
+                    class="w-10 h-10 rounded-full mx-auto bg-gray-100 dark:bg-gray-700"
+                  />
+                </td>
+
+                <td>
+                  <a
+                    href="#"
+                    class="popup-employee-card link-btn"
+                    aria-label="Show employee card"
+                    >Surendran Varnijapur
+                  </a>
+                </td>
+                <td>SentinelOne</td>
+                <td>HR Business Partner</td>
+                <td>San Francisco, California, United States</td>
+                <td>0.72</td>
+                <td>
+                  <a href="#" class="link-btn" aria-label="LinkedIn profile">
+                    <img
+                      src="assets/images/linkedin-logo.png"
+                      alt="LinkedIn Company Page"
+                      class="linkedin-logo"
+                    />
+                  </a>
+                </td>
+                <td>
+                  <button class="contact-btn" type="button">
+                    Get email / phone
+                  </button>
+                </td>
+                <td>
+                  <select class="status-select" name="employee-status"></select>
+                </td>
+                <td>
+                  <span class="delete-btn">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <circle
+                        cx="8"
+                        cy="8"
+                        r="7"
+                        fill="#ef4444"
+                        stroke="#dc2626"
+                        stroke-width="1"
+                      />
+                      <path
+                        d="M5.5 5.5L10.5 10.5M10.5 5.5L5.5 10.5"
+                        stroke="white"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- Pagination controls -->
+        <div class="pagination-controls">
+          <button class="pagination-btn" disabled>Prev</button>
+          <span class="text-lg font-medium">1</span>
+          <button class="pagination-btn">Next</button>
+        </div>
+      </section>
+
+      <!-- Company card -->
+      <template id="company-card">
+        <!-- Left Arrow Button -->
+        <button
+          id="arrow-left"
+          aria-label="Previous"
+          class="card-nav-btn card-nav-btn-left"
+          type="button"
+        >
+          <svg
+            width="28"
+            height="28"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="text-indigo-500"
+          >
+            <polygon points="15 18 9 12 15 6" />
+          </svg>
+        </button>
+
+        <!-- Company Card Content -->
+        <article
+          class="card-article"
+          role="region"
+          aria-label="Company Insights Card"
+        >
+          <div id="company-card-content" class="card-container">
+            <div class="card-top-controls">
+              <!-- Close Button -->
+              <button
+                id="close-card"
+                aria-label="Close"
+                class="card-close-btn"
+                type="button"
+              >
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <line
+                    x1="5"
+                    y1="5"
+                    x2="15"
+                    y2="15"
+                    stroke="#ef4444"
+                    stroke-width="2"
+                  />
+                  <line
+                    x1="15"
+                    y1="5"
+                    x2="5"
+                    y2="15"
+                    stroke="#ef4444"
+                    stroke-width="2"
+                  />
+                </svg>
+              </button>
+
+              <!-- Tickbox in upper right corner -->
+              <div id="tick-box" class="card-tickbox">
+                <input
+                  id="add-company-to-selection"
+                  type="checkbox"
+                  class="form-checkbox h-5 w-5 text-indigo-600 rounded focus:ring-indigo-500 transition"
+                />
+                <label
+                  for="add-company-to-selection"
+                  class="text-sm font-medium cursor-pointer select-none text-gray-900 dark:text-gray-100"
+                >
+                  Add to my selection
+                </label>
+              </div>
+            </div>
+
+            <!-- Company Info -->
+            <section class="mb-6" aria-labelledby="company-info-title">
+              <div class="section-title">
+                <h2 id="company-info-title">Company</h2>
+              </div>
+
+              <div class="section-content">
+                <table class="w-full card-info-table">
+                  <tbody id="company-info-list"></tbody>
+                </table>
+              </div>
+            </section>
+
+            <!-- Company Analytics -->
+            <section class="mb-6" aria-labelledby="company-analytics-title">
+              <div class="section-title">
+                <h2 id="company-info-title">Company Analytics</h2>
+              </div>
+
+              <div class="section-content">
+                <table class="w-full card-info-table">
+                  <tbody id="company-analytics-list"></tbody>
+                </table>
+              </div>
+
+              <!-- Chart containers -->
+              <div
+                class="charts-grid grid grid-cols-1 md:grid-cols-2 gap-4 mt-4"
+              >
+                <!-- Project Budget Pie Chart -->
+                <div class="chart-container">
+                  <canvas
+                    id="project-budget-chart"
+                    width="250"
+                    height="200"
+                  ></canvas>
+                </div>
+
+                <!-- Growth Rate Chart -->
+                <div class="chart-container">
+                  <canvas
+                    id="growth-rate-chart"
+                    width="250"
+                    height="200"
+                  ></canvas>
+                </div>
+
+                <!-- Funding History Chart -->
+                <div class="chart-container col-span-1 md:col-span-2">
+                  <canvas
+                    id="funding-received-chart"
+                    width="500"
+                    height="200"
+                  ></canvas>
+                </div>
+              </div>
+            </section>
+
+            <!-- Sentiment Analysis -->
+            <section class="mb-6" aria-labelledby="sentiment-analysis-title">
+              <div class="section-title">
+                <h2 id="company-info-title">Sentiment Analysis</h2>
+              </div>
+
+              <div class="section-content">
+                <table class="w-full card-info-table">
+                  <tbody id="sentiment-analysis-list"></tbody>
+                </table>
+              </div>
+
+              <!-- Chart containers -->
+              <div
+                class="charts-grid grid grid-cols-1 md:grid-cols-2 gap-4 mt-4"
+              >
+                <!-- Employee Reviews Star Rating -->
+                <div class="chart-container flex items-center justify-center">
+                  <div class="text-center">
+                    <h3>Employee Reviews</h3>
+                    <div id="employee-reviews-stars"></div>
+                  </div>
+                </div>
+
+                <!-- Well-being Score Pie Chart -->
+                <div class="chart-container">
+                  <canvas
+                    id="employee-wellbeing-score-chart"
+                    width="250"
+                    height="200"
+                  ></canvas>
+                </div>
+              </div>
+            </section>
+
+            <!-- Talent Insights -->
+            <section class="mb-6" aria-labelledby="talent-insights-title">
+              <div class="section-title">
+                <h2 id="company-info-title">Talent Insights</h2>
+              </div>
+
+              <div class="section-content">
+                <table class="w-full card-info-table">
+                  <tbody id="talent-insights-list"></tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+        </article>
+
+        <!-- Right Arrow Button -->
+        <button
+          id="arrow-right"
+          aria-label="Next"
+          class="card-nav-btn card-nav-btn-right"
+          type="button"
+        >
+          <svg
+            width="28"
+            height="28"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="text-indigo-500"
+          >
+            <polygon points="9 6 15 12 9 18" />
+          </svg>
+        </button>
+      </template>
+
+      <!-- Employee card -->
+      <template id="employee-card">
+        <!-- Left Arrow Button -->
+        <button
+          id="arrow-left"
+          aria-label="Previous"
+          class="card-nav-btn card-nav-btn-left"
+          type="button"
+        >
+          <svg
+            width="28"
+            height="28"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="text-indigo-500"
+          >
+            <polygon points="15 18 9 12 15 6" />
+          </svg>
+        </button>
+
+        <!-- Employee Card Content -->
+        <article class="card-article" role="region" aria-label="Employee Card">
+          <div id="employee-card-content" class="card-container">
+            <div class="card-top-controls">
+              <!-- Close Button -->
+              <button
+                id="close-card"
+                aria-label="Close"
+                class="card-close-btn"
+                type="button"
+              >
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <line
+                    x1="5"
+                    y1="5"
+                    x2="15"
+                    y2="15"
+                    stroke="#ef4444"
+                    stroke-width="2"
+                  />
+                  <line
+                    x1="15"
+                    y1="5"
+                    x2="5"
+                    y2="15"
+                    stroke="#ef4444"
+                    stroke-width="2"
+                  />
+                </svg>
+              </button>
+
+              <!-- Tickbox in upper right corner -->
+              <div id="tick-box" class="card-tickbox">
+                <input id="add-employee-to-selection" type="checkbox" />
+                <label for="add-employee-to-selection">
+                  Add to my selection
+                </label>
+              </div>
+            </div>
+
+            <div class="employee-card-layout">
+              <div class="profile-image-container">
+                <img
+                  id="employee-profile-image"
+                  src=""
+                  alt="Profile picture"
+                  class="profile-image"
+                />
+                <span class="profile-status-indicator"></span>
+              </div>
+              <!-- Profile -->
+              <section class="w-full mb-2" aria-labelledby="profile-info-title">
+                <div class="section-title">
+                  <h2 id="profile-info-title">Profile</h2>
+                </div>
+                <div class="section-content">
+                  <table class="w-full card-info-table">
+                    <tbody id="profile-info-list"></tbody>
+                  </table>
+                </div>
+              </section>
+
+              <!-- Career -->
+              <section class="w-full mb-2" aria-labelledby="career-info-title">
+                <div class="section-title">
+                  <h2 id="career-info-title">Career</h2>
+                </div>
+                <div class="section-content">
+                  <table class="w-full card-info-table">
+                    <tbody id="career-info-list"></tbody>
+                  </table>
+                </div>
+              </section>
+            </div>
+          </div>
+        </article>
+
+        <!-- Right Arrow Button -->
+        <button
+          id="arrow-right"
+          aria-label="Next"
+          class="card-nav-btn card-nav-btn-right"
+          type="button"
+        >
+          <svg
+            width="28"
+            height="28"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="text-indigo-500"
+          >
+            <polygon points="9 6 15 12 9 18" />
+          </svg>
+        </button>
+      </template>
+    </main>
+    <div>
+      <div class="prototype-text">Prototype</div>
+    </div>
+  </body>
+  <script src="./js/project-page.js" type="module"></script>
+</html>
