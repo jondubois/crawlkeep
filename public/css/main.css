@@ -593,6 +593,18 @@ ul li {
   display: none;
 }
 
+@media (max-width: 1650px) {
+  .main-header-content {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 1300px) {
+  .main-header-content {
+    width: 50%;
+  }
+}
+
 @media (max-width: 1200px) {
   .profile-section {
     flex-direction: column;
@@ -654,6 +666,14 @@ ul li {
     height: 40dvh; /* dynamic viewport height */
   }
 
+  .main-header-content #intro {
+    font-size: 2rem;
+  }
+
+  .main-header-content #slogan-words {
+    font-size: 1.5rem;
+  }
+
   h1 {
     font-size: 28px;
   }
@@ -676,6 +696,22 @@ ul li {
     gap: 12px;
     padding-left: 32px;
     padding-right: 32px;
+  }
+}
+
+@media(max-width: 700px) {
+  .main-header-content #intro {
+    font-size: 1.5rem;
+  }
+
+  .main-header-content #slogan-words {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .main-header {
+    background-position: top center;
   }
 }
 
@@ -715,5 +751,13 @@ ul li {
 
   .tagline-container {
     gap: 64px;
+  }
+
+  .main-header-content {
+    align-items: center;
+  }
+
+  .main-header-content .animated-slogan-row {
+    display: none;
   }
 }
