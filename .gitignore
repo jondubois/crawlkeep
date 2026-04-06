@@ -2,6 +2,9 @@
 # macOS: it stores custom attributes of the directory
 .DS_Store
 
+data-miner/
+data-miner-server/
+
 # Config files
 .vscode/
 
