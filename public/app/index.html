@@ -2492,11 +2492,8 @@
       }
 
       function refreshGroupManagerSelectElements() {
-        // Add small delay to ensure DOM updates are processed
-        setTimeout(() => {
-          document.querySelector('.data-group-manager-reducer')?.render();
-          document.querySelector('.data-group-reducer')?.render();
-        }, 100);
+        document.querySelector('.data-group-manager-reducer')?.render();
+        document.querySelector('.data-group-reducer')?.render();
       }
 
       async function submitCreateDataGroupForm(formElement) {
@@ -7189,6 +7186,7 @@
                 collection-fields="name"
                 collection-view="accountSearchView"
                 collection-view-params="accountId={{socket.authToken ? socket.authToken.accountId : ''}},query='{{getNormalizedFiltersFromQuery(getParamValueFromURL('data-group-filter') || ``)}}'"
+                collection-view-primary-fields="accountId"
                 collection-page-size="10"
                 collection-page-offset="0"
               >
