@@ -2024,6 +2024,8 @@ export async function importFromProject(dataGroupId, loaderSelector = '.file-imp
       updateElementStyle(loaderSelector, 'display', 'none');
     }, 5000);
 
+    document.querySelector('.dashboard-app-router')?.refreshCurrentPage();
+
   } catch (error) {
     console.error('Error importing from project:', error);
     updateElementText(loaderSelector, 'Import failed. Please check console for details.', 'error');
