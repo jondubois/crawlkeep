@@ -7,6 +7,10 @@ Thanks to its revolutionary [Saasufy](https://saasufy.com) backend, CrawlKeep is
 You should think about which aspect you want differentiate yourself on; the crawling, the keeping or both?
 For example, your distro could end up having a very different crawling mechanism and UI but it could be hooked into the main/shared CrawlKeep backend and tapping into existing accounts and data; potentially sharing that data with other trusted distros... Or your distro could have the same crawling mechanism and UI as the main CrawlKeep distro but its data would be fully isolated into a separate Saasufy instance... Or you can do both!
 
+## Built for the AI coding era
+
+Because CrawlKeep is a frontend-only application with a fully managed backend, the entire product surface is ordinary HTML, CSS, and JavaScript — exactly the kind of code that AI coding tools excel at generating and modifying. This means anyone, regardless of technical skill, can use tools like [Claude Code](https://docs.anthropic.com/en/docs/claude-code) to reshape the UI, add dashboards, build new workflows, or create an entirely new distro without ever touching backend infrastructure, writing database migrations, or worrying about security vulnerabilities in server-side code. The backend handles authentication, data storage, real-time communication, and AI scoring so you can focus entirely on making the product your own.
+
 ## Features
 
 - Crawl and store people and company profiles
