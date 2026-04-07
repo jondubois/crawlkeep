@@ -2,7 +2,10 @@
 
 An open-source data crawling and intelligence platform that lets you crawl, classify, and analyze people and company data. Customize crawling processes without coding, create custom tags and classifications using generative AI, and gain insights through AI-driven analytics.
 
-Built on the [Saasufy](https://saasufy.com) framework.
+Thanks to its revolutionary [Saasufy](https://saasufy.com) backend, CrawlKeep is open and flexible unlike any other platform of its kind. You can either set up your own fully isolated instance/distro with its own accounts, schema and data from scratch or you can opt in to share everything with the main CrawlKeep distro and community.
+
+You should think about which aspect you want differentiate yourself on; the crawling, the keeping or both?
+For example, your distro could end up having a very different crawling mechanism and UI but it could be hooked into the main/shared CrawlKeep backend and tapping into existing accounts and data; potentially sharing that data with other trusted distros... Or your distro could have the same crawling mechanism and UI as the main CrawlKeep distro but its data would be fully isolated into a separate Saasufy instance... Or you can do both!
 
 ## Features
 
@@ -37,7 +40,7 @@ cd crawlkeep
 
 ### 2. Serve the frontend
 
-Serve the `public/` directory on a port of your choice using any HTTP server. For example, using [http-server](https://www.npmjs.com/package/http-server):
+Serve the `public/` directory on port 8081 using any HTTP server. For example, using [http-server](https://www.npmjs.com/package/http-server):
 
 ```sh
 npx http-server public -p 8081
