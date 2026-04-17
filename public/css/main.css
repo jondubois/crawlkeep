@@ -354,6 +354,7 @@ select:focus {
 
 .main-header {
   display: flex;
+  box-sizing: border-box;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -648,7 +649,8 @@ ul li {
 @media (max-width: 900px) {
   .main-header {
     background-size: cover;
-    background-position: top right;
+    background-position: top center;
+    height: 500px;
   }
 }
 
@@ -661,9 +663,8 @@ ul li {
   }
 
   .main-header {
-    box-sizing: border-box;
-    height: 40vh;
-    height: 40dvh; /* dynamic viewport height */
+    background-position: top center;
+    height: 450px;
   }
 
   .main-header-content #intro {
@@ -707,11 +708,9 @@ ul li {
   .main-header-content #slogan-words {
     font-size: 1rem;
   }
-}
 
-@media (max-width: 600px) {
   .main-header {
-    background-position: top center;
+    height: 450px;
   }
 }
 
@@ -723,6 +722,10 @@ ul li {
   .app-logo {
     height: 80px;
   }
+
+  .main-header {
+    height: 300px;
+  }
 }
 
 @media (max-width: 400px) {
@@ -733,12 +736,6 @@ ul li {
 
   .top-nav-links-container {
     font-size: 18px;
-  }
-
-  .main-header {
-    box-sizing: border-box;
-    height: 30vh;
-    height: 30dvh;
   }
 
   .profile-name {
